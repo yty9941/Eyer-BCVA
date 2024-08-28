@@ -1,1 +1,61 @@
+base_cfg:
+  root:
+  txt:
+  seed: 3407
+  output:
 
+  figure_save:
+  model_save:
+  gpu_ids:
+#  gpu_ids: [0,1,2,3,4,5,6,7]
+  isMultiGpu: False
+
+  isDetectROI: True # CCRE
+  isReWeighting: True # OctR
+  isMSA: True # MSA
+  isAttentionMask: True # Attentional Mask
+  isCL: True # Constrastive Learning
+  isLossMask: True # Loss Mask
+
+train_cfg:
+  image_size: 224
+  oct:
+    IMG_MEAN: [0.485, 0.456, 0.406]
+    IMG_STD: [0.229, 0.224, 0.225]
+  slo:
+    IMG_MEAN: [ 0.485, 0.456, 0.406 ]
+    IMG_STD: [ 0.229, 0.224, 0.225 ]
+
+  threshold: 0.1
+  Batch_Size: 64
+  Epochs: 100
+  Learning_Rate: 0.003
+  Weight_Decay: 0.0005
+  Momentum: 0.9
+  Early_Stopping_Patience: 5
+
+  incomplete:
+    alpha: 0.5
+    beta: 0.3
+    gamma: 0.20
+    delta: 0.10
+    lambda: 0.5
+    tau: 0.1
+
+model_cfg:
+  BCVA_Num_Classes: 1
+  image:
+    In_Channels: 3
+    image_size: 224
+    image_patch: 16
+    image_encoder: IncompleteBCVA
+
+  incomplete_fusion:
+    dim: 768
+    depth: 3
+    heads: 6
+    mlp_dim: 1536
+    dim_head: 128
+    dropout: 0.1
+    emb_dropout: 0.1
+    seqLs: [29, 49, 49]
