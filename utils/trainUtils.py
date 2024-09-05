@@ -67,12 +67,6 @@ class Utils:
                 OctImage, SloImage, label, patientMessage, diagOct, diagSlo, missModalTag, OTSU, ROI = self.unpackToGpu(batch)
                 BCVA, predOct, predSlo, octEmbed, sloEmbed = model.forward(OctImage, OTSU, patientMessage, SloImage, missModalTag, diagOct, diagSlo, ROI)
                 optimizer.zero_grad()
-                postProcess = []
-                for key in label:
-                    postProcess.append(self.getValue(key)[0])
-                postProcess = torch.Tensor(postProcess).cuda()
-                BCVA += postProcess
-
                 predBCVALoss = self.BCVA_loss(BCVA, label)
                 predOctLoss = self.BCVA_loss(predOct, label)
                 predSloLoss = self.BCVA_loss(predSlo, label)
@@ -101,12 +95,6 @@ class Utils:
                     OctImage, SloImage, label, patientMessage, \
                     diagOct, diagSlo, missModalTag, OTSU, ROI = self.unpackToGpu(batch)
                     BCVA, predOct, predSlo, octEmbed, sloEmbed = model.forward(OctImage, OTSU, patientMessage, SloImage, missModalTag, diagOct, diagSlo, ROI)
-                    postProcess = []
-                    for key in label:
-                        postProcess.append(self.getValue(key)[0])
-                    postProcess = torch.Tensor(postProcess).cuda()
-                    BCVA += postProcess
-
                     predBCVALoss = self.BCVA_loss(BCVA, label)
                     predOctLoss = self.BCVA_loss(predOct, label)
                     predSloLoss = self.BCVA_loss(predSlo, label)
@@ -196,16 +184,9 @@ class Utils:
         missModalTag = missModalTag.cuda()
         OTSU = OTSU.cuda()
         ROI = ROI.cuda()
-
+        
         return OctImage, SloImage, label, patientMessage, \
         diagOct, diagSlo, missModalTag, OTSU, ROI
-
-    def getValue(self, key):
-        processDict = {-0.08000: -0.1, 0.00000: 0, 0.05000: -0.2, 0.10000: 0, 0.22000: 0.1,
-                       0.30000: 0.2, 0.40000: 0.22, 0.52000: 0.29, 0.60000: 0.43, 0.70000: 0.55,
-                       0.82000: 0.6, 0.92000: 0.63, 1.00000: 0.6, 1.10000: 1, 1.22000: 1.1,
-                       1.30000: 1, 1.40000: 0.8, 1.70000: 1.26, 2.50000: 0}
-        return [v for k,v in processDict.items() if k == key]
 
 
 
