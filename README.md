@@ -1,2 +1,2 @@
 # Eyer-BCVA
-This is the official implementation of the paper "Cataract Postoperative Visual Acuity Prediction based on Uncertain Missing Multimodal Learning and Contrastive Learning"
+This is the official implementation of the paper "UML: A Unified Multimodal Learning Framework for Cataract Postoperative Visual Acuity Prediction with Uncertain Missing Modalities"
