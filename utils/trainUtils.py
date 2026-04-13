@@ -143,11 +143,6 @@ class Utils:
                 diagSlo, missModalTag, OTSU, ROI = self.unpackToGpu(batch)
 
                 BCVA, predOct, predSlo, octEmbed, sloEmbed = model.forward(OctImage, OTSU, patientMessage, SloImage, missModalTag, diagOct, diagSlo, ROI)
-                postProcess = []
-                for key in label:
-                    postProcess.append(self.getValue(key)[0])
-                postProcess = torch.Tensor(postProcess).cuda()
-                BCVA += postProcess
                 predBCVALoss = self.BCVA_loss(BCVA, label)
                 predOctLoss = self.BCVA_loss(predOct, label)
                 predSloLoss = self.BCVA_loss(predSlo, label)
